@@ -213,7 +213,9 @@
     <div class="hist" id="hist"></div>
     <div class="footer">
       <button id="export">バックアップ ・ Export ・ Exportar</button>
+      <button id="import">復元 ・ Import ・ Importar</button>
       <button id="reset">全削除 ・ Delete all ・ Borrar</button>
+      <input type="file" id="importFile" accept="application/json,.json" style="display:none">
     </div>
   </div>
 </div>
@@ -238,6 +240,25 @@ function streakBonus(s){ return Math.min(s, STREAK_CAP) * 2; }
 
 const KEY = 'gokintore_v1';
 let data = load();
+
+// ── 初回オープン時の自動復元（6/1〜6/6の記録を一度だけ投入）──
+// localStorageは端末ごとに別保存のため、ここで一度だけ補正データを読み込む。
+// 同じ端末で2回目以降は実行されない。既に7件以上ある端末は上書きしない（誤消去防止）。
+(function seedOnce(){
+  const SEED_KEY = 'gokintore_seed_20260607';
+  if(localStorage.getItem(SEED_KEY)) return;
+  if(Object.keys(data).length > 6) return;
+  data = {
+    "2026-06-01":{alc:false,abst:false,gym:10},
+    "2026-06-02":{alc:true, abst:false,gym:5},
+    "2026-06-03":{alc:true, abst:false,gym:5},
+    "2026-06-04":{alc:false,abst:false,gym:10},
+    "2026-06-05":{alc:false,abst:false,gym:10},
+    "2026-06-06":{alc:false,abst:true, gym:6}
+  };
+  store();
+  localStorage.setItem(SEED_KEY, 'done');
+})();
 
 // 画像プリロード
 ['officer-joy.jpg','officer-fail.jpg'].forEach(s=>{ const i=new Image(); i.src=s; });
@@ -414,6 +435,40 @@ document.getElementById('export').addEventListener('click', ()=>{
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download='gokintore_backup_'+todayStr()+'.json'; a.click();
+});
+
+// 復元（Import）：バックアップJSONを読み込み、現在のデータを置き換える
+document.getElementById('import').addEventListener('click', ()=>{
+  document.getElementById('importFile').click();
+});
+document.getElementById('importFile').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file){ return; }
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    let parsed;
+    try{ parsed = JSON.parse(reader.result); }
+    catch(err){
+      alert('ファイルを読み込めませんでした（JSON形式ではありません）。\nCould not read file — not valid JSON. ・ No es un JSON válido.');
+      e.target.value=''; return;
+    }
+    if(typeof parsed!=='object' || parsed===null || Array.isArray(parsed)){
+      alert('このファイルはご筋トレのバックアップ形式ではありません。\nThis is not a Gokintore backup file. ・ No es una copia de Gokintore.');
+      e.target.value=''; return;
+    }
+    const inCount = Object.keys(parsed).length;
+    const curCount = Object.keys(data).length;
+    if(!confirm('復元すると、今この端末にある記録（'+curCount+'件）は、読み込んだ記録（'+inCount+'件）に置き換わります。よろしいですか？\n\nThis REPLACES current data ('+curCount+') with the imported data ('+inCount+'). Continue? ・ ¿Reemplazar los datos actuales?')){
+      e.target.value=''; return;
+    }
+    data = parsed; store();
+    prevRankIdx = render().idx;
+    document.getElementById('date').value = todayStr(); fillForm(todayStr());
+    setMood('normal');
+    showMsg('復元しました（'+inCount+'件）', 'Restored '+inCount+' records ・ Restaurado ('+inCount+')');
+    e.target.value='';
+  };
+  reader.readAsText(file);
 });
 </script>
 </body>
