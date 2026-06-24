@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0b1f3a">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>ご筋トレ｜Gokintore</title>
+<title>Gokintore｜ご筋トレ</title>
 <style>
   :root{
     --navy:#0b1f3a; --navy2:#13294b; --gold:#d4af37; --gold2:#f3d989;
@@ -26,7 +26,11 @@
   .title{font-size:30px; font-weight:800; letter-spacing:2px;
     background:linear-gradient(90deg,var(--gold2),var(--gold));
     -webkit-background-clip:text; background-clip:text; color:transparent;}
-  .subtitle{font-size:12px; color:#9fb4d8; margin-top:4px; line-height:1.5;}
+  .title-jp{font-size:12px; color:#9fb4d8; margin-top:2px; letter-spacing:3px;}
+  .subtitle{margin-top:6px; line-height:1.5;}
+  .subtitle .s-es{font-size:14px; color:#cdd8ec; font-weight:600;}
+  .subtitle .s-en{font-size:12px; color:#9fb4d8;}
+  .subtitle .s-jp{font-size:9px; color:#7a8aa8;}
 
   .card{
     background:rgba(255,255,255,.06); border:1px solid rgba(212,175,55,.35);
@@ -51,26 +55,32 @@
     box-shadow:0 3px 10px rgba(0,0,0,.5); border:2px solid #0b1f3a;}
 
   .rank-name{font-size:26px; font-weight:800; color:var(--gold2); line-height:1.1;}
-  .rank-sub{font-size:13px; color:#cdd8ec; margin-top:2px;}
-  .rank-lv{font-size:12px; color:#9fb4d8; margin-top:2px;}
+  .rank-en{font-size:14px; color:#cdd8ec; margin-top:3px;}
+  .rank-jp{font-size:10px; color:#9fb4d8; margin-top:1px;}
+  .rank-lv{font-size:12px; color:#9fb4d8; margin-top:3px;}
   .pts{font-size:14px; margin-top:8px; color:#d7e3ff;}
   .pts b{color:#fff; font-size:18px;}
+  .pts .pts-jp{font-size:10px; color:#9fb4d8; margin-left:4px;}
 
   .bar{height:14px; border-radius:8px; background:rgba(255,255,255,.12); overflow:hidden; margin-top:12px;}
   .bar>span{display:block; height:100%; width:0;
     background:linear-gradient(90deg,var(--gold),var(--gold2)); transition:width .6s ease;}
-  .next{font-size:12px; color:#9fb4d8; margin-top:6px;}
+  .next{font-size:13px; color:#cdd8ec; margin-top:6px; line-height:1.5;}
 
   .stats{display:flex; gap:10px; margin-top:14px;}
   .stat{flex:1; text-align:center; background:rgba(255,255,255,.05); border-radius:12px; padding:10px 4px;}
   .stat .v{font-size:22px; font-weight:800; color:#fff;}
-  .stat .l{font-size:10px; color:#9fb4d8; line-height:1.3;}
+  .stat .l{line-height:1.3; margin-top:2px;}
+  .stat .l .l-es{font-size:11px; color:#cdd8ec; font-weight:700; display:block;}
+  .stat .l .l-en{font-size:9px; color:#9fb4d8;}
+  .stat .l .l-jp{font-size:8px; color:#7a8aa8;}
 
   /* 入力 */
   .editing-note{font-size:12px; color:var(--gold2); text-align:center; margin:-4px 0 10px; min-height:16px;}
   .row{display:flex; align-items:center; justify-content:space-between; margin:14px 0; gap:10px;}
-  .lbl .jp{font-size:16px; font-weight:600;}
-  .lbl .sub{font-size:11px; color:#9fb4d8; font-weight:400;}
+  .lbl .es{font-size:16px; font-weight:600;}
+  .lbl .en{font-size:12px; color:#cdd8ec;}
+  .lbl .jp{font-size:10px; color:#8499bd; font-weight:400;}
   input[type=date]{background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2);
     color:#fff; border-radius:10px; padding:8px 10px; font-size:15px;}
   input[type=number]{width:120px; background:rgba(255,255,255,.1);
@@ -101,14 +111,18 @@
     background:linear-gradient(90deg,var(--gold),var(--gold2));
     box-shadow:0 6px 18px rgba(212,175,55,.4); transition:transform .1s; line-height:1.4;}
   .btn small{display:block; font-size:11px; font-weight:600; opacity:.75;}
+  .btn .s-jp{font-size:9px; opacity:.6;}
   .btn:active{transform:scale(.98);}
 
   .msg{text-align:center; margin-top:12px; min-height:44px; font-weight:700; color:var(--gold2); line-height:1.4;}
-  .msg .m-jp{font-size:15px;} .msg .m-sub{font-size:12px; color:#cdd8ec; font-weight:500;}
+  .msg .m-es{font-size:15px;} .msg .m-en{font-size:12px; color:#cdd8ec; font-weight:500;}
+  .msg .m-jp{font-size:9px; color:#9fb4d8; font-weight:500;}
 
   h3{font-size:15px; color:var(--gold2); margin:0 0 2px; letter-spacing:1px;}
   h3 .h-sub{font-size:11px; color:#8499bd; font-weight:400; letter-spacing:0;}
+  h3 .h-sub .hj{font-size:9px;}
   .hint{font-size:11px; color:#8499bd; margin:6px 0 12px;}
+  .hint .hj{font-size:9px;}
   .hist{display:flex; flex-direction:column; gap:6px; max-height:300px; overflow-y:auto;}
   .hitem{display:flex; align-items:center; justify-content:space-between; gap:8px;
     background:rgba(255,255,255,.04); border-radius:8px; padding:10px 12px; font-size:14px; cursor:pointer;}
@@ -120,6 +134,7 @@
   .hitem .p{font-weight:800; color:var(--gold2); flex:0 0 auto;}
   .hitem .del{background:none; border:none; color:#7a8aa8; font-size:16px; cursor:pointer; padding:0 2px; flex:0 0 auto;}
   .empty{color:#8499bd; font-size:14px; text-align:center; padding:14px;}
+  .empty .hj{font-size:9px;}
 
   .footer{text-align:center; margin-top:14px;}
   .footer button{background:none; border:1px solid rgba(255,255,255,.2); color:#8499bd;
@@ -133,6 +148,7 @@
     align-items:center; justify-content:center; font-size:12px; font-weight:800; background:rgba(255,255,255,.1);}
   .rstep.done .ri{background:var(--ok);} .rstep.cur .ri{background:var(--gold);}
   .rstep .rn{flex:1; font-weight:700;} .rstep .rn small{font-weight:400; color:#9fb4d8; font-size:11px;}
+  .rstep .rn small .rj{font-size:9px;}
   .rstep .rp{color:#9fb4d8; font-variant-numeric:tabular-nums;}
 
   .confetti{position:fixed; top:-12px; width:10px; height:14px; z-index:99; pointer-events:none;
@@ -143,30 +159,32 @@
 <body>
 <div class="wrap">
   <header>
-    <div class="title">ご筋トレ ｜ Gokintore</div>
+    <div class="title">Gokintore</div>
+    <div class="title-jp">ご筋トレ</div>
     <div class="subtitle">
-      巡査から警察庁長官まで、昇進への道<br>
-      From Officer to Commissioner-General — the road to promotion<br>
-      De Agente a Director General — el camino al ascenso
+      <span class="s-es">De Agente a Director General — el camino al ascenso</span><br>
+      <span class="s-en">From Officer to Commissioner-General — the road to promotion</span><br>
+      <span class="s-jp">巡査から警察庁長官まで、昇進への道</span>
     </div>
   </header>
 
   <!-- 階級 -->
   <div class="card rank-card">
     <div class="hero-frame">
-      <img class="hero" id="hero" src="officer.jpg" alt="警察官">
+      <img class="hero" id="hero" src="officer.jpg" alt="Agente">
       <div class="badge-chip" id="badge">👮</div>
     </div>
-    <div class="rank-name" id="rankName">巡査</div>
-    <div class="rank-sub" id="rankSub">Police Officer ・ Agente</div>
+    <div class="rank-name" id="rankName">Agente</div>
+    <div class="rank-en" id="rankEn">Police Officer</div>
+    <div class="rank-jp" id="rankJp">巡査</div>
     <div class="rank-lv" id="rankLv">Lv.1</div>
-    <div class="pts">累計 <b id="totalPts">0</b> pt ・ Total ・ Total</div>
+    <div class="pts">Total <b id="totalPts">0</b> pt<span class="pts-jp">累計</span></div>
     <div class="bar"><span id="bar"></span></div>
     <div class="next" id="nextInfo"></div>
     <div class="stats">
-      <div class="stat"><div class="v" id="streak">0</div><div class="l">連続記録日<br>Streak ・ Racha</div></div>
-      <div class="stat"><div class="v" id="days">0</div><div class="l">記録日数<br>Days ・ Días</div></div>
-      <div class="stat"><div class="v" id="gymTotal">0</div><div class="l">筋トレ合計(分)<br>Total min</div></div>
+      <div class="stat"><div class="v" id="streak">0</div><div class="l"><span class="l-es">Racha</span><span class="l-en">Streak</span> <span class="l-jp">連続記録</span></div></div>
+      <div class="stat"><div class="v" id="days">0</div><div class="l"><span class="l-es">Días</span><span class="l-en">Days</span> <span class="l-jp">記録日数</span></div></div>
+      <div class="stat"><div class="v" id="gymTotal">0</div><div class="l"><span class="l-es">Total min</span><span class="l-en">Total min</span> <span class="l-jp">筋トレ合計</span></div></div>
     </div>
   </div>
 
@@ -174,19 +192,19 @@
   <div class="card">
     <div class="editing-note" id="editNote"></div>
     <div class="row">
-      <div class="lbl"><div class="jp">📅 記録する日</div><div class="sub">Date ・ Fecha</div></div>
+      <div class="lbl"><div class="es">📅 Fecha</div><div class="en">Date</div><div class="jp">記録する日</div></div>
       <input type="date" id="date">
     </div>
     <div class="row">
-      <div class="lbl"><div class="jp">🍺 禁酒</div><div class="sub">No Alcohol ・ Sin alcohol</div></div>
+      <div class="lbl"><div class="es">🍺 Sin alcohol</div><div class="en">No Alcohol</div><div class="jp">禁酒</div></div>
       <label class="toggle"><input type="checkbox" id="alc"><div class="track"><span class="txt on">OK</span><span class="txt off">—</span><span class="knob"></span></div></label>
     </div>
     <div class="row">
-      <div class="lbl"><div class="jp">🧘 禁欲</div><div class="sub">Self-control ・ Autocontrol</div></div>
+      <div class="lbl"><div class="es">🧘 Autocontrol</div><div class="en">Self-control</div><div class="jp">禁欲</div></div>
       <label class="toggle"><input type="checkbox" id="abst"><div class="track"><span class="txt on">OK</span><span class="txt off">—</span><span class="knob"></span></div></label>
     </div>
     <div class="row">
-      <div class="lbl"><div class="jp">💪 筋トレ（分）</div><div class="sub">Workout min ・ Ejercicio min</div></div>
+      <div class="lbl"><div class="es">💪 Ejercicio (min)</div><div class="en">Workout min</div><div class="jp">筋トレ（分）</div></div>
       <input type="number" id="gym" min="0" max="600" value="0" inputmode="numeric">
     </div>
     <div class="quick">
@@ -196,25 +214,25 @@
       <button data-min="60">+60</button>
       <button data-min="0" id="clearMin">0</button>
     </div>
-    <button class="btn" id="save">この日を記録する<small>Save this day ・ Guardar el día</small></button>
+    <button class="btn" id="save">Guardar el día<small>Save this day</small><small class="s-jp">この日を記録する</small></button>
     <div class="msg" id="msg"></div>
   </div>
 
   <!-- ロードマップ -->
   <div class="card">
-    <h3>昇進ロードマップ <span class="h-sub">Promotion Roadmap ・ Ruta de ascenso</span></h3>
+    <h3>Ruta de ascenso <span class="h-sub">Promotion Roadmap ・ <span class="hj">昇進ロードマップ</span></span></h3>
     <div class="road" id="road"></div>
   </div>
 
   <!-- 履歴 -->
   <div class="card">
-    <h3>記録の履歴 <span class="h-sub">History ・ Historial</span></h3>
-    <p class="hint">行をタップで再編集 ・ Tap a row to edit ・ Toca una fila para editar</p>
+    <h3>Historial <span class="h-sub">History ・ <span class="hj">記録の履歴</span></span></h3>
+    <p class="hint">Toca una fila para editar ・ Tap a row to edit ・ <span class="hj">行をタップで再編集</span></p>
     <div class="hist" id="hist"></div>
     <div class="footer">
-      <button id="export">バックアップ ・ Export ・ Exportar</button>
-      <button id="import">復元 ・ Import ・ Importar</button>
-      <button id="reset">全削除 ・ Delete all ・ Borrar</button>
+      <button id="export">Exportar ・ Export ・ <span style="font-size:9px">バックアップ</span></button>
+      <button id="import">Importar ・ Import ・ <span style="font-size:9px">復元</span></button>
+      <button id="reset">Borrar ・ Delete all ・ <span style="font-size:9px">全削除</span></button>
       <input type="file" id="importFile" accept="application/json,.json" style="display:none">
     </div>
   </div>
@@ -307,8 +325,9 @@ function render(){
   const rank = RANKS[idx], next = RANKS[idx+1];
 
   document.getElementById('badge').textContent = rank.emoji;
-  document.getElementById('rankName').textContent = rank.jp;
-  document.getElementById('rankSub').textContent = rank.en+' ・ '+rank.es;
+  document.getElementById('rankName').textContent = rank.es;
+  document.getElementById('rankEn').textContent = rank.en;
+  document.getElementById('rankJp').textContent = rank.jp;
   document.getElementById('rankLv').textContent = 'Lv.'+(idx+1);
   document.getElementById('totalPts').textContent = c.total.toLocaleString();
   document.getElementById('streak').textContent = c.curStreak;
@@ -321,10 +340,10 @@ function render(){
     bar.style.width = prog+'%';
     const remain = (next.min - c.total).toLocaleString();
     document.getElementById('nextInfo').innerHTML =
-      '次は「'+next.jp+'」まであと '+remain+' pt<br><span style="font-size:11px">'+remain+' pt to "'+next.en+'" ・ Faltan '+remain+' pt</span>';
+      'Faltan '+remain+' pt para «'+next.es+'»<br><span style="font-size:11px;color:#9fb4d8">'+remain+' pt to "'+next.en+'" ・ <span style="font-size:9px">次は「'+next.jp+'」</span></span>';
   }else{
     bar.style.width='100%';
-    document.getElementById('nextInfo').innerHTML = '🎉 最高位達成！ ・ Top rank reached! ・ ¡Rango máximo!';
+    document.getElementById('nextInfo').innerHTML = '🎉 ¡Rango máximo!<br><span style="font-size:11px;color:#9fb4d8">Top rank reached! ・ <span style="font-size:9px">最高位達成！</span></span>';
   }
 
   const road = document.getElementById('road');
@@ -332,26 +351,26 @@ function render(){
   RANKS.forEach((r,i)=>{
     const div=document.createElement('div');
     div.className='rstep'+(i<idx?' done':'')+(i===idx?' cur':'');
-    div.innerHTML='<div class="ri">'+(i<idx?'✓':(i+1))+'</div><div class="rn">'+r.jp+' <small>'+r.en+' ・ '+r.es+'</small></div><div class="rp">'+r.min.toLocaleString()+'</div>';
+    div.innerHTML='<div class="ri">'+(i<idx?'✓':(i+1))+'</div><div class="rn">'+r.es+' <small>'+r.en+' ・ <span class="rj">'+r.jp+'</span></small></div><div class="rp">'+r.min.toLocaleString()+'</div>';
     road.appendChild(div);
   });
 
   const hist = document.getElementById('hist');
   hist.innerHTML='';
   const dates = Object.keys(data).sort().reverse();
-  if(dates.length===0){ hist.innerHTML='<div class="empty">まだ記録がありません ・ No records yet ・ Sin registros</div>'; }
+  if(dates.length===0){ hist.innerHTML='<div class="empty">Sin registros ・ No records yet ・ <span class="hj">まだ記録がありません</span></div>'; }
   dates.forEach(d=>{
     const r=data[d];
     const item=document.createElement('div'); item.className='hitem';
     let tags='';
-    if(r.alc) tags+='<span class="tag alc">禁酒</span>';
-    if(r.abst) tags+='<span class="tag abst">禁欲</span>';
-    if((r.gym||0)>0) tags+='<span class="tag gym">💪'+r.gym+'分</span>';
-    if(!tags) tags='<span class="tag" style="background:#3a4a63">記録なし</span>';
-    item.innerHTML='<span class="d">'+d.slice(5).replace('-','/')+'</span><span class="tags">'+tags+'</span><span class="p">'+(c.perDay[d]||0)+'pt</span><button class="del" title="削除">🗑</button>';
+    if(r.alc) tags+='<span class="tag alc">Sin alcohol</span>';
+    if(r.abst) tags+='<span class="tag abst">Autocontrol</span>';
+    if((r.gym||0)>0) tags+='<span class="tag gym">💪'+r.gym+' min</span>';
+    if(!tags) tags='<span class="tag" style="background:#3a4a63">Sin datos</span>';
+    item.innerHTML='<span class="d">'+d.slice(5).replace('-','/')+'</span><span class="tags">'+tags+'</span><span class="p">'+(c.perDay[d]||0)+'pt</span><button class="del" title="Borrar">🗑</button>';
     item.addEventListener('click', ()=>{ document.getElementById('date').value=d; fillForm(d); window.scrollTo({top:0,behavior:'smooth'}); });
     item.querySelector('.del').addEventListener('click', (e)=>{ e.stopPropagation();
-      if(confirm(d+' の記録を削除しますか？ ・ Delete this day? ・ ¿Borrar este día?')){ delete data[d]; store(); render(); } });
+      if(confirm('¿Borrar este día ('+d+')? ・ Delete this day? ・ '+d+' を削除？')){ delete data[d]; store(); render(); } });
     hist.appendChild(item);
   });
   return {c, idx};
@@ -362,7 +381,7 @@ function fillForm(d){
   document.getElementById('alc').checked = !!r.alc;
   document.getElementById('abst').checked = !!r.abst;
   document.getElementById('gym').value = r.gym||0;
-  document.getElementById('editNote').textContent = data[d] ? '✏️ '+d.replace(/-/g,'/')+' を修正中 ・ editing ・ editando' : '';
+  document.getElementById('editNote').textContent = data[d] ? '✏️ editando '+d.replace(/-/g,'/')+' ・ editing ・ 修正中' : '';
 }
 
 function celebrate(){
@@ -376,15 +395,15 @@ function celebrate(){
 }
 
 const POS = [
-  {jp:'記録しました。その調子！', en:'Saved. Keep it up!', es:'¡Guardado. Sigue así!'},
-  {jp:'よく頑張りました！',       en:'Great work today!',  es:'¡Buen trabajo!'},
-  {jp:'継続は力なり！',           en:'Consistency is power!', es:'¡La constancia es poder!'},
-  {jp:'一歩前進です 👮',          en:'One step forward 👮', es:'Un paso adelante 👮'},
+  {jp:'記録しました。その調子！', en:'Saved. Keep it up!',     es:'¡Guardado. Sigue así!'},
+  {jp:'よく頑張りました！',       en:'Great work today!',      es:'¡Buen trabajo!'},
+  {jp:'継続は力なり！',           en:'Consistency is power!',  es:'¡La constancia es poder!'},
+  {jp:'一歩前進です 👮',          en:'One step forward 👮',    es:'Un paso adelante 👮'},
 ];
 const NEG = {jp:'今日は記録なし…明日こそ！', en:'Nothing today… try tomorrow!', es:'Hoy nada… ¡mañana sí!'};
 
-function showMsg(jp, sub){
-  document.getElementById('msg').innerHTML='<div class="m-jp">'+jp+'</div><div class="m-sub">'+sub+'</div>';
+function showMsg(es, en, jp){
+  document.getElementById('msg').innerHTML='<div class="m-es">'+es+'</div><div class="m-en">'+en+'</div><div class="m-jp">'+jp+'</div>';
   setTimeout(()=>{ document.getElementById('msg').innerHTML=''; }, 5000);
 }
 
@@ -413,21 +432,22 @@ document.getElementById('save').addEventListener('click', ()=>{
   if(res.idx > prevRankIdx){
     const r = RANKS[res.idx];
     setMood('joy'); celebrate();
-    showMsg('🎉 昇進！「'+r.jp+'」になりました！',
-            '🎉 Promoted to "'+r.en+'"! ・ ¡Ascendido a "'+r.es+'"!');
+    showMsg('🎉 ¡Ascendido a «'+r.es+'»!',
+            'Promoted to "'+r.en+'"!',
+            '「'+r.jp+'」に昇進！');
   }else if(isActive(rec)){
     setMood('joy');
     const m = POS[res.c.days % POS.length];
-    showMsg(m.jp, m.en+' ・ '+m.es);
+    showMsg(m.es, m.en, m.jp);
   }else{
     setMood('fail');
-    showMsg(NEG.jp, NEG.en+' ・ '+NEG.es);
+    showMsg(NEG.es, NEG.en, NEG.jp);
   }
   prevRankIdx = res.idx;
 });
 
 document.getElementById('reset').addEventListener('click', ()=>{
-  if(confirm('本当に全データを削除しますか？ ・ Delete ALL data? ・ ¿Borrar TODO?')){
+  if(confirm('¿Borrar TODO? ・ Delete ALL data? ・ 全データを削除？')){
     data={}; store(); render(); document.getElementById('date').value=todayStr(); fillForm(todayStr()); setMood('normal');
   }
 });
@@ -449,23 +469,23 @@ document.getElementById('importFile').addEventListener('change', (e)=>{
     let parsed;
     try{ parsed = JSON.parse(reader.result); }
     catch(err){
-      alert('ファイルを読み込めませんでした（JSON形式ではありません）。\nCould not read file — not valid JSON. ・ No es un JSON válido.');
+      alert('No es un JSON válido. ・ Could not read file — not valid JSON. ・ JSON形式ではありません。');
       e.target.value=''; return;
     }
     if(typeof parsed!=='object' || parsed===null || Array.isArray(parsed)){
-      alert('このファイルはご筋トレのバックアップ形式ではありません。\nThis is not a Gokintore backup file. ・ No es una copia de Gokintore.');
+      alert('No es una copia de Gokintore. ・ This is not a Gokintore backup file. ・ ご筋トレのバックアップ形式ではありません。');
       e.target.value=''; return;
     }
     const inCount = Object.keys(parsed).length;
     const curCount = Object.keys(data).length;
-    if(!confirm('復元すると、今この端末にある記録（'+curCount+'件）は、読み込んだ記録（'+inCount+'件）に置き換わります。よろしいですか？\n\nThis REPLACES current data ('+curCount+') with the imported data ('+inCount+'). Continue? ・ ¿Reemplazar los datos actuales?')){
+    if(!confirm('Esto REEMPLAZA los datos actuales ('+curCount+') con los importados ('+inCount+'). ¿Continuar?\n\nThis REPLACES current data ('+curCount+') with the imported data ('+inCount+'). Continue?\n\n今ある記録（'+curCount+'件）が読み込んだ記録（'+inCount+'件）に置き換わります。')){
       e.target.value=''; return;
     }
     data = parsed; store();
     prevRankIdx = render().idx;
     document.getElementById('date').value = todayStr(); fillForm(todayStr());
     setMood('normal');
-    showMsg('復元しました（'+inCount+'件）', 'Restored '+inCount+' records ・ Restaurado ('+inCount+')');
+    showMsg('Restaurado ('+inCount+')', 'Restored '+inCount+' records', '復元しました（'+inCount+'件）');
     e.target.value='';
   };
   reader.readAsText(file);
